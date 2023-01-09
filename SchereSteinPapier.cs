@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,10 +43,10 @@ namespace SchereSteinPapier
                     Console.CursorVisible = false;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("          WÄHLE!\n");
-                    Console.WriteLine("SCHERE  -> [1]                          Runde " + Runde);
-                    Console.WriteLine("STEIN   -> [2]                          Ihre Punkte = " + SpielerPunkte);
-                    Console.WriteLine("PAPIER  -> [3]                          Computers Punkte = " + ComputerPunkte);
-                    Console.WriteLine("                                        Maximal Punkte = " + MaximalPunkte);
+                    Console.WriteLine("SCHERE   -> [1]                         Runde " + Runde);
+                    Console.WriteLine("STEIN    -> [2]                         Ihre Punkte = " + SpielerPunkte);
+                    Console.WriteLine("PAPIER   -> [3]                         Computers Punkte = " + ComputerPunkte);
+                    Console.WriteLine("Aufgeben -> [9]                         Maximal Punkte = " + MaximalPunkte);
                     /*
                     Console.WriteLine("\nSchere Chaunsen = " + SchereChaunsen);
                     Console.WriteLine("Stein Chaunsen = " + SteinChaunsen);
@@ -55,17 +55,21 @@ namespace SchereSteinPapier
                     SpielerWahlerString = "FEHLER";
                     ComputerWahl = "FEHLER";
                     SpielerWahl = Console.ReadKey(true).KeyChar.ToString();
+                    if (SpielerWahl == "9")
+                    {
+                        break;
+                    }
                     if (SpielerWahl != "1" && SpielerWahl != "2" && SpielerWahl != "3")
                     {
-                        Console.SetCursorPosition(11, 2);
+                        Console.SetCursorPosition(12, 2);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("[1]");
-                        Console.SetCursorPosition(11, 3);
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.SetCursorPosition(12, 3);
                         Console.Write("[2]");
-                        Console.SetCursorPosition(11, 4);
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.SetCursorPosition(12, 4);
                         Console.Write("[3]");
+                        Console.SetCursorPosition(12, 5);
+                        Console.Write("[9]");
                         Thread.Sleep(30);
                         Console.SetCursorPosition(0, 0);
                         Console.ForegroundColor = ConsoleColor.White;
@@ -308,12 +312,12 @@ namespace SchereSteinPapier
                 } while (SpielerPunkte < MaximalPunkte && ComputerPunkte < MaximalPunkte);
                 Runde--;
                 Console.Clear();
-                if (SpielerPunkte > ComputerPunkte)
+                if (SpielerPunkte > ComputerPunkte && SpielerWahl != "9")
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("          DU HAST GEWONNEN!\n");
                 }
-                else
+                else if (SpielerWahl == "9")
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("          DER COMPUTER HAT GEWONNEN!\n");
