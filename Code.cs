@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace SchereSteinPapier
 {
@@ -11,7 +12,7 @@ namespace SchereSteinPapier
     {
         static void Main(string[] args)
         {
-            int SchereChaunsen, SteinChaunsen, PapierChaunsen, ZufallsWahl, ComputerPunkte, SpielerPunkte, Runde, ScherenZähler, SteinZähler, PapierZähler, MaximalPunkte;
+            int SchereChaunsen, SteinChaunsen, PapierChaunsen, ZufallsWahl = 0, ComputerPunkte, SpielerPunkte, Runde, SchereZähler, SteinZähler, PapierZähler, SchereMinusZähler, SteinMinusZähler, PapierMinusZähler, MaximalPunkte;
             string SpielerWahl, SpielerWahlerString, ComputerWahl, MaximalPunkteString;
             bool Zähler;
             Random Zufall = new Random();
@@ -23,10 +24,12 @@ namespace SchereSteinPapier
                 Runde = 1;
                 ComputerPunkte = 0;
                 SpielerPunkte = 0;
-                ScherenZähler = 0;
+                SchereZähler = 0;
                 SteinZähler = 0;
                 PapierZähler = 0;
-                Zähler = false;
+                SchereMinusZähler = 0;
+                SteinMinusZähler = 0;
+                PapierMinusZähler = 0;
                 do
                 {
                     Console.Clear();
@@ -48,9 +51,16 @@ namespace SchereSteinPapier
                     Console.WriteLine("PAPIER   -> [3]                         Computers Punkte = " + ComputerPunkte);
                     Console.WriteLine("Aufgeben -> [9]                         Maximal Punkte = " + MaximalPunkte);
                     /*
-                    Console.WriteLine("\nSchere Chaunsen = " + SchereChaunsen);
-                    Console.WriteLine("Stein Chaunsen = " + SteinChaunsen);
-                    Console.WriteLine("Papier Chaunsen = " + PapierChaunsen);
+                    Console.WriteLine("\n         DEBUG: ");
+                    Console.WriteLine("     Schere Chaunsen = " + SchereChaunsen);
+                    Console.WriteLine("     Stein Chaunsen = " + SteinChaunsen);
+                    Console.WriteLine("     Papier Chaunsen = " + PapierChaunsen);
+                    Console.WriteLine("     Scheren Wahl Aufzählung = " + SchereZähler);
+                    Console.WriteLine("     Stein Wahl Aufzählung = " + SteinZähler);
+                    Console.WriteLine("     Papier Wahl Aufzählung = " + PapierZähler);
+                    Console.WriteLine("     Scheren Auslassungs Aufzählung = " + SchereMinusZähler);
+                    Console.WriteLine("     Stein Auslassungs Aufzählung = " + SteinMinusZähler);
+                    Console.WriteLine("     Papier Auslassungs Aufzählung = " + PapierMinusZähler);
                     */
                     SpielerWahlerString = "FEHLER";
                     ComputerWahl = "FEHLER";
@@ -76,111 +86,58 @@ namespace SchereSteinPapier
                     }
                     if (SpielerWahl == "1" || SpielerWahl == "2" || SpielerWahl == "3")
                     {
-                        if (SpielerWahl == "1")
+                        switch (SpielerWahl)
                         {
-                            ScherenZähler++;
-                            SpielerWahlerString = "SCHERE"; ;
+                            case "1":
+                                SpielerWahlerString = "SCHERE";
+                                break;
+                            case "2":
+                                SpielerWahlerString = "STEIN";
+                                break;
+                            case "3":
+                                SpielerWahlerString = "PAPIER";
+                                break;
                         }
-                        if (SpielerWahl == "2")
+                        Zähler = false;
+                        if (SchereZähler > 2)
                         {
-                            SteinZähler++;
-                            SpielerWahlerString = "STEIN";
+                            ComputerWahl = "STEIN";
+                            Zähler = true;
                         }
-                        if (SpielerWahl == "3")
+                        if (SteinZähler > 2)
                         {
-                            PapierZähler++;
-                            SpielerWahlerString = "PAPIER";
+                            ComputerWahl = "PAPIER";
+                            Zähler = true;
                         }
-                        if (ScherenZähler > 2)
+                        if (PapierZähler > 2)
                         {
-                            if (SpielerWahlerString == "SCHERE")
-                            {
-                                Zähler = true;
-                                ComputerWahl = "STEIN";
-                            }
-                            else
-                            {
-                                Zähler = false;
-                                ScherenZähler = 0;
-                            }
-                        }
-                        else if (SteinZähler > 2)
-                        {
-                            if (SpielerWahlerString == "STEIN")
-                            {
-                                Zähler = true;
-                                ComputerWahl = "PAPIER";
-                            }
-                            else
-                            {
-                                Zähler = false;
-                                SteinZähler = 0;
-                            }
-                        }
-                        else if (PapierZähler > 2)
-                        {
-                            if (SpielerWahlerString == "PAPIER")
-                            {
-                                Zähler = true;
-                                ComputerWahl = "SCHERE";
-                            }
-                            else
-                            {
-                                Zähler = false;
-                                PapierZähler = 0;
-                            }
+                            ComputerWahl = "SCHERE";
+                            Zähler = true;
                         }
                         if (Zähler == false)
                         {
-                            if (SchereChaunsen > SteinChaunsen)
+                            if (SchereMinusZähler < -2)
                             {
-                                if (SchereChaunsen > PapierChaunsen)
-                                {
-                                    ComputerWahl = "SCHERE";
-                                }
-                                else if (SchereChaunsen == PapierChaunsen)
-                                {
-                                    ZufallsWahl = Zufall.Next(1, 100);
-                                    if (ZufallsWahl <= 50)
-                                    {
-                                        ComputerWahl = "SCHERE";
-                                    }
-                                    else
-                                    {
-                                        ComputerWahl = "PAPIER";
-                                    }
-                                }
-                                else
-                                {
-                                    ComputerWahl = "PAPIER";
-                                }
+                                ComputerWahl = SteinPapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
                             }
-                            else if (SchereChaunsen == SteinChaunsen)
+                            else if (SteinMinusZähler < -2)
                             {
-                                if (SchereChaunsen > PapierChaunsen)
+                                ComputerWahl = ScherePapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
+                            }
+                            else if (PapierMinusZähler < -2)
+                            {
+                                if (SchereChaunsen > SteinChaunsen)
+                                {
+                                    ComputerWahl = "STEIN";
+                                }
+                                else if (SchereChaunsen == SteinChaunsen)
                                 {
                                     ZufallsWahl = Zufall.Next(1, 100);
                                     if (ZufallsWahl <= 50)
                                     {
-                                        ComputerWahl = "SCHERE";
+                                        ComputerWahl = "STEIN";
                                     }
                                     else
-                                    {
-                                        ComputerWahl = "STEIN"; ;
-                                    }
-                                }
-                                else if (SchereChaunsen == PapierChaunsen)
-                                {
-                                    ZufallsWahl = Zufall.Next(1, 150);
-                                    if (ZufallsWahl <= 50)
-                                    {
-                                        ComputerWahl = "SCHERE";
-                                    }
-                                    if (ZufallsWahl > 50 && ZufallsWahl <= 100)
-                                    {
-                                        ComputerWahl = "STEIN"; ;
-                                    }
-                                    if (ZufallsWahl > 100)
                                     {
                                         ComputerWahl = "PAPIER";
                                     }
@@ -192,25 +149,48 @@ namespace SchereSteinPapier
                             }
                             else
                             {
-                                if (SteinChaunsen > PapierChaunsen)
+                                if (SchereChaunsen > SteinChaunsen)
                                 {
-                                    ComputerWahl = "STEIN"; ;
+                                    ComputerWahl = ScherePapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
                                 }
-                                else if (SteinChaunsen == PapierChaunsen)
+                                else if (SchereChaunsen == SteinChaunsen)
                                 {
-                                    ZufallsWahl = Zufall.Next(1, 100);
-                                    if (ZufallsWahl <= 50)
+                                    if (SchereChaunsen > PapierChaunsen)
                                     {
-                                        ComputerWahl = "STEIN"; ;
+                                        ZufallsWahl = Zufall.Next(1, 100);
+                                        if (ZufallsWahl <= 50)
+                                        {
+                                            ComputerWahl = "STEIN";
+                                        }
+                                        else
+                                        {
+                                            ComputerWahl = "PAPIER";
+                                        }
+                                    }
+                                    else if (SchereChaunsen == PapierChaunsen)
+                                    {
+                                        ZufallsWahl = Zufall.Next(1, 150);
+                                        if (ZufallsWahl <= 50)
+                                        {
+                                            ComputerWahl = "STEIN";
+                                        }
+                                        if (ZufallsWahl > 50 && ZufallsWahl <= 100)
+                                        {
+                                            ComputerWahl = "PAPIER";
+                                        }
+                                        if (ZufallsWahl > 100)
+                                        {
+                                            ComputerWahl = "SCHERE";
+                                        }
                                     }
                                     else
                                     {
-                                        ComputerWahl = "PAPIER";
+                                        ComputerWahl = "SCHERE";
                                     }
                                 }
                                 else
                                 {
-                                    ComputerWahl = "PAPIER";
+                                    ComputerWahl = SteinPapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
                                 }
                             }
                         }
@@ -286,28 +266,45 @@ namespace SchereSteinPapier
                             Console.WriteLine("Ihre Punkte = " + SpielerPunkte);
                             Console.WriteLine("                                        Computers Punkte = " + ComputerPunkte);
                             Console.WriteLine("                                        Maximal Punkte = " + MaximalPunkte);
-
                         }
                         Console.ReadKey(true);
                         Runde++;
                     }
-                    if (SpielerWahl == "1")
+                    switch (SpielerWahlerString)
                     {
-                        SchereChaunsen = SchereChaunsen - (SchereChaunsen / 3);
-                        SteinChaunsen = SteinChaunsen + (SteinChaunsen / 3);
-                        PapierChaunsen = PapierChaunsen + (PapierChaunsen / 3);
-                    }
-                    if (SpielerWahl == "2")
-                    {
-                        SteinChaunsen = SteinChaunsen - (SteinChaunsen / 3);
-                        SchereChaunsen = SchereChaunsen + (SchereChaunsen / 3);
-                        PapierChaunsen = PapierChaunsen + (PapierChaunsen / 3);
-                    }
-                    if (SpielerWahl == "3")
-                    {
-                        PapierChaunsen = PapierChaunsen - (PapierChaunsen / 3);
-                        SchereChaunsen = SchereChaunsen + (SchereChaunsen / 3);
-                        SteinChaunsen = SteinChaunsen + (SteinChaunsen / 3);
+                        case "SCHERE":
+                            SchereChaunsen = SchereChaunsen - (SchereChaunsen / 3);
+                            SteinChaunsen = SteinChaunsen + (SteinChaunsen / 6);
+                            PapierChaunsen = PapierChaunsen + (PapierChaunsen / 6);
+                            SchereZähler++;
+                            SteinZähler = 0;
+                            PapierZähler = 0;
+                            SchereMinusZähler = 0;
+                            SteinMinusZähler--;
+                            PapierMinusZähler--;
+                            break;
+                        case "STEIN":
+                            SteinChaunsen = SteinChaunsen - (SteinChaunsen / 3);
+                            SchereChaunsen = SchereChaunsen + (SchereChaunsen / 6);
+                            PapierChaunsen = PapierChaunsen + (PapierChaunsen / 6);
+                            SteinZähler++;
+                            SchereZähler = 0;
+                            PapierZähler = 0;
+                            SteinMinusZähler = 0;
+                            SchereMinusZähler--;
+                            PapierMinusZähler--;
+                            break;
+                        case "PAPIER":
+                            PapierChaunsen = PapierChaunsen - (PapierChaunsen / 3);
+                            SchereChaunsen = SchereChaunsen + (SchereChaunsen / 6);
+                            SteinChaunsen = SteinChaunsen + (SteinChaunsen / 6);
+                            PapierZähler++;
+                            SchereZähler = 0;
+                            SteinZähler = 0;
+                            PapierMinusZähler = 0;
+                            SchereMinusZähler--;
+                            SteinMinusZähler--;
+                            break;
                     }
                 } while (SpielerPunkte < MaximalPunkte && ComputerPunkte < MaximalPunkte);
                 Runde--;
@@ -332,6 +329,52 @@ namespace SchereSteinPapier
                 Console.WriteLine("Computers Punkte = " + ComputerPunkte);
                 Console.WriteLine("Maximal Punkte = " + MaximalPunkte);
                 Console.ReadKey(true);
+            }
+        }
+        static string SteinPapier(int SteinChaunsen, int PapierChaunsen,  int ZufallsWahl, Random Zufall)
+        {
+            if (SteinChaunsen > PapierChaunsen)
+            {
+                return "PAPIER";
+            }
+            else if (SteinChaunsen == PapierChaunsen)
+            {
+                ZufallsWahl = Zufall.Next(1, 100);
+                if (ZufallsWahl <= 50)
+                {
+                    return "PAPIER";
+                }
+                else
+                {
+                    return "SCHERE";
+                }
+            }
+            else
+            {
+                return "SCHERE";
+            }
+        }
+        static string ScherePapier(int SchereChaunsen, int PapierChaunsen, int ZufallsWahl, Random Zufall)
+        {
+            if (SchereChaunsen > PapierChaunsen)
+            {
+                return "STEIN";
+            }
+            else if (SchereChaunsen == PapierChaunsen)
+            {
+                ZufallsWahl = Zufall.Next(1, 100);
+                if (ZufallsWahl <= 50)
+                {
+                    return "STEIN";
+                }
+                else
+                {
+                    return "SCHERE";
+                }
+            }
+            else
+            {
+                return "SCHERE";
             }
         }
     }
