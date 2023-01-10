@@ -8,15 +8,18 @@ using System.Runtime.InteropServices;
 
 namespace SchereSteinPapier
 {
+    using System.Threading;
+    using System;
+
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main( string[] args )
         {
             int SchereChaunsen, SteinChaunsen, PapierChaunsen, ZufallsWahl = 0, ComputerPunkte, SpielerPunkte, Runde, SchereZähler, SteinZähler, PapierZähler, SchereMinusZähler, SteinMinusZähler, PapierMinusZähler, MaximalPunkte;
             string SpielerWahl, SpielerWahlerString, ComputerWahl, MaximalPunkteString;
             bool Zähler;
             Random Zufall = new Random();
-            while (true)
+            while( true )
             {
                 SchereChaunsen = 300;
                 SteinChaunsen = 300;
@@ -34,22 +37,22 @@ namespace SchereSteinPapier
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("Maximalpunkte: ");
+                    Console.Write( "Maximalpunkte: " );
                     Console.CursorVisible = true;
                     MaximalPunkteString = Console.ReadLine();
                     Console.CursorVisible = false;
-                    int.TryParse(MaximalPunkteString, out MaximalPunkte);
-                } while (MaximalPunkte <= 0);
+                    int.TryParse( MaximalPunkteString, out MaximalPunkte );
+                } while( MaximalPunkte <= 0 );
                 do
                 {
                     Console.Clear();
                     Console.CursorVisible = false;
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("          WÄHLE!\n");
-                    Console.WriteLine("SCHERE   -> [1]                         Runde " + Runde);
-                    Console.WriteLine("STEIN    -> [2]                         Ihre Punkte = " + SpielerPunkte);
-                    Console.WriteLine("PAPIER   -> [3]                         Computers Punkte = " + ComputerPunkte);
-                    Console.WriteLine("Aufgeben -> [9]                         Maximal Punkte = " + MaximalPunkte);
+                    Console.WriteLine( "          WÄHLE!\n" );
+                    Console.WriteLine( "SCHERE   -> [1]                         Runde " + Runde );
+                    Console.WriteLine( "STEIN    -> [2]                         Ihre Punkte = " + SpielerPunkte );
+                    Console.WriteLine( "PAPIER   -> [3]                         Computers Punkte = " + ComputerPunkte );
+                    Console.WriteLine( "Aufgeben -> [9]                         Maximal Punkte = " + MaximalPunkte );
                     /*
                     Console.WriteLine("\n         DEBUG: ");
                     Console.WriteLine("     Schere Chaunsen = " + SchereChaunsen);
@@ -64,29 +67,29 @@ namespace SchereSteinPapier
                     */
                     SpielerWahlerString = "FEHLER";
                     ComputerWahl = "FEHLER";
-                    SpielerWahl = Console.ReadKey(true).KeyChar.ToString();
-                    if (SpielerWahl == "9")
+                    SpielerWahl = Console.ReadKey( true ).KeyChar.ToString();
+                    if( SpielerWahl == "9" )
                     {
                         break;
                     }
-                    if (SpielerWahl != "1" && SpielerWahl != "2" && SpielerWahl != "3")
+                    if( SpielerWahl != "1" && SpielerWahl != "2" && SpielerWahl != "3" )
                     {
-                        Console.SetCursorPosition(12, 2);
+                        Console.SetCursorPosition( 12, 2 );
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("[1]");
-                        Console.SetCursorPosition(12, 3);
-                        Console.Write("[2]");
-                        Console.SetCursorPosition(12, 4);
-                        Console.Write("[3]");
-                        Console.SetCursorPosition(12, 5);
-                        Console.Write("[9]");
-                        Thread.Sleep(30);
-                        Console.SetCursorPosition(0, 0);
+                        Console.Write( "[1]" );
+                        Console.SetCursorPosition( 12, 3 );
+                        Console.Write( "[2]" );
+                        Console.SetCursorPosition( 12, 4 );
+                        Console.Write( "[3]" );
+                        Console.SetCursorPosition( 12, 5 );
+                        Console.Write( "[9]" );
+                        Thread.Sleep( 30 );
+                        Console.SetCursorPosition( 0, 0 );
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                    if (SpielerWahl == "1" || SpielerWahl == "2" || SpielerWahl == "3")
+                    if( SpielerWahl == "1" || SpielerWahl == "2" || SpielerWahl == "3" )
                     {
-                        switch (SpielerWahl)
+                        switch( SpielerWahl )
                         {
                             case "1":
                                 SpielerWahlerString = "SCHERE";
@@ -99,41 +102,41 @@ namespace SchereSteinPapier
                                 break;
                         }
                         Zähler = false;
-                        if (SchereZähler > 2)
+                        if( SchereZähler > 1 )
                         {
                             ComputerWahl = "STEIN";
                             Zähler = true;
                         }
-                        if (SteinZähler > 2)
+                        if( SteinZähler > 1 )
                         {
                             ComputerWahl = "PAPIER";
                             Zähler = true;
                         }
-                        if (PapierZähler > 2)
+                        if( PapierZähler > 1 )
                         {
                             ComputerWahl = "SCHERE";
                             Zähler = true;
                         }
-                        if (Zähler == false)
+                        if( Zähler == false )
                         {
-                            if (SchereMinusZähler < -2)
+                            if( SchereMinusZähler < -2 )
                             {
-                                ComputerWahl = SteinPapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
+                                ComputerWahl = SteinPapier( SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall );
                             }
-                            else if (SteinMinusZähler < -2)
+                            else if( SteinMinusZähler < -2 )
                             {
-                                ComputerWahl = ScherePapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
+                                ComputerWahl = ScherePapier( SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall );
                             }
-                            else if (PapierMinusZähler < -2)
+                            else if( PapierMinusZähler < -2 )
                             {
-                                if (SchereChaunsen > SteinChaunsen)
+                                if( SchereChaunsen > SteinChaunsen )
                                 {
                                     ComputerWahl = "STEIN";
                                 }
-                                else if (SchereChaunsen == SteinChaunsen)
+                                else if( SchereChaunsen == SteinChaunsen )
                                 {
-                                    ZufallsWahl = Zufall.Next(1, 100);
-                                    if (ZufallsWahl <= 50)
+                                    ZufallsWahl = Zufall.Next( 1, 100 );
+                                    if( ZufallsWahl <= 50 )
                                     {
                                         ComputerWahl = "STEIN";
                                     }
@@ -149,16 +152,16 @@ namespace SchereSteinPapier
                             }
                             else
                             {
-                                if (SchereChaunsen > SteinChaunsen)
+                                if( SchereChaunsen > SteinChaunsen )
                                 {
-                                    ComputerWahl = ScherePapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
+                                    ComputerWahl = ScherePapier( SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall );
                                 }
-                                else if (SchereChaunsen == SteinChaunsen)
+                                else if( SchereChaunsen == SteinChaunsen )
                                 {
-                                    if (SchereChaunsen > PapierChaunsen)
+                                    if( SchereChaunsen > PapierChaunsen )
                                     {
-                                        ZufallsWahl = Zufall.Next(1, 100);
-                                        if (ZufallsWahl <= 50)
+                                        ZufallsWahl = Zufall.Next( 1, 100 );
+                                        if( ZufallsWahl <= 50 )
                                         {
                                             ComputerWahl = "STEIN";
                                         }
@@ -167,18 +170,18 @@ namespace SchereSteinPapier
                                             ComputerWahl = "PAPIER";
                                         }
                                     }
-                                    else if (SchereChaunsen == PapierChaunsen)
+                                    else if( SchereChaunsen == PapierChaunsen )
                                     {
-                                        ZufallsWahl = Zufall.Next(1, 150);
-                                        if (ZufallsWahl <= 50)
+                                        ZufallsWahl = Zufall.Next( 1, 150 );
+                                        if( ZufallsWahl <= 50 )
                                         {
                                             ComputerWahl = "STEIN";
                                         }
-                                        if (ZufallsWahl > 50 && ZufallsWahl <= 100)
+                                        if( ZufallsWahl > 50 && ZufallsWahl <= 100 )
                                         {
                                             ComputerWahl = "PAPIER";
                                         }
-                                        if (ZufallsWahl > 100)
+                                        if( ZufallsWahl > 100 )
                                         {
                                             ComputerWahl = "SCHERE";
                                         }
@@ -190,87 +193,87 @@ namespace SchereSteinPapier
                                 }
                                 else
                                 {
-                                    ComputerWahl = SteinPapier(SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall);
+                                    ComputerWahl = SteinPapier( SteinChaunsen, PapierChaunsen, ZufallsWahl, Zufall );
                                 }
                             }
                         }
                         Console.Clear();
-                        if (SpielerWahlerString == "FEHLER" || ComputerWahl == "FEHLER")
+                        if( SpielerWahlerString == "FEHLER" || ComputerWahl == "FEHLER" )
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("          FEHLER!");
-                            Console.WriteLine("\nEin Fehler ist passiert.");
-                            Console.WriteLine("Probieren Sie es erneut.");
-                            Console.WriteLine("Hoffentlich funktioniert es ,dass nächste Mal.");
+                            Console.WriteLine( "          FEHLER!" );
+                            Console.WriteLine( "\nEin Fehler ist passiert." );
+                            Console.WriteLine( "Probieren Sie es erneut." );
+                            Console.WriteLine( "Hoffentlich funktioniert es ,dass nächste Mal." );
                         }
                         else
                         {
-                            if (SpielerWahlerString == ComputerWahl)
+                            if( SpielerWahlerString == ComputerWahl )
                             {
                                 Console.ForegroundColor = ConsoleColor.White;
-                                Console.WriteLine("          UNENTSCHIEDEN!");
+                                Console.WriteLine( "          UNENTSCHIEDEN!" );
                             }
                             else
                             {
-                                if (SpielerWahlerString == "SCHERE")
+                                if( SpielerWahlerString == "SCHERE" )
                                 {
-                                    if (ComputerWahl == "STEIN")
+                                    if( ComputerWahl == "STEIN" )
                                     {
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                        Console.WriteLine("          VERLUST!");
+                                        Console.WriteLine( "          VERLUST!" );
                                         ComputerPunkte++;
                                     }
                                     else
                                     {
                                         Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("          SIEG!");
+                                        Console.WriteLine( "          SIEG!" );
                                         SpielerPunkte++;
                                     }
                                 }
-                                if (SpielerWahlerString == "STEIN")
+                                if( SpielerWahlerString == "STEIN" )
                                 {
-                                    if (ComputerWahl == "PAPIER")
+                                    if( ComputerWahl == "PAPIER" )
                                     {
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                        Console.WriteLine("          VERLUST!");
+                                        Console.WriteLine( "          VERLUST!" );
                                         ComputerPunkte++;
                                     }
                                     else
                                     {
                                         Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("          SIEG!");
+                                        Console.WriteLine( "          SIEG!" );
                                         SpielerPunkte++;
                                     }
                                 }
-                                if (SpielerWahlerString == "PAPIER")
+                                if( SpielerWahlerString == "PAPIER" )
                                 {
-                                    if (ComputerWahl == "SCHERE")
+                                    if( ComputerWahl == "SCHERE" )
                                     {
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                        Console.WriteLine("          VERLUST!");
+                                        Console.WriteLine( "          VERLUST!" );
                                         ComputerPunkte++;
                                     }
                                     else
                                     {
                                         Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("          SIEG!");
+                                        Console.WriteLine( "          SIEG!" );
                                         SpielerPunkte++;
                                     }
                                 }
                             }
-                            Console.WriteLine("\nIhre Wahl      = " + SpielerWahlerString);
-                            Console.WriteLine("Computers Wahl = " + ComputerWahl);
-                            Console.SetCursorPosition(40, 2);
-                            Console.Write("Runde " + Runde);
-                            Console.SetCursorPosition(40, 3);
-                            Console.WriteLine("Ihre Punkte = " + SpielerPunkte);
-                            Console.WriteLine("                                        Computers Punkte = " + ComputerPunkte);
-                            Console.WriteLine("                                        Maximal Punkte = " + MaximalPunkte);
+                            Console.WriteLine( "\nIhre Wahl      = " + SpielerWahlerString );
+                            Console.WriteLine( "Computers Wahl = " + ComputerWahl );
+                            Console.SetCursorPosition( 40, 2 );
+                            Console.Write( "Runde " + Runde );
+                            Console.SetCursorPosition( 40, 3 );
+                            Console.WriteLine( "Ihre Punkte = " + SpielerPunkte );
+                            Console.WriteLine( "                                        Computers Punkte = " + ComputerPunkte );
+                            Console.WriteLine( "                                        Maximal Punkte = " + MaximalPunkte );
                         }
-                        Console.ReadKey(true);
+                        Console.ReadKey( true );
                         Runde++;
                     }
-                    switch (SpielerWahlerString)
+                    switch( SpielerWahlerString )
                     {
                         case "SCHERE":
                             SchereChaunsen = SchereChaunsen - (SchereChaunsen / 3);
@@ -306,41 +309,41 @@ namespace SchereSteinPapier
                             SteinMinusZähler--;
                             break;
                     }
-                } while (SpielerPunkte < MaximalPunkte && ComputerPunkte < MaximalPunkte);
+                } while( SpielerPunkte < MaximalPunkte && ComputerPunkte < MaximalPunkte );
                 Runde--;
                 Console.Clear();
-                if (SpielerWahl == "9")
+                if( SpielerWahl == "9" )
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("          DER COMPUTER HAT GEWONNEN!\n");
+                    Console.WriteLine( "          DER COMPUTER HAT GEWONNEN!\n" );
                 }
-                else if (SpielerPunkte > ComputerPunkte)
+                else if( SpielerPunkte > ComputerPunkte )
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("          DU HAST GEWONNEN!\n");
+                    Console.WriteLine( "          DU HAST GEWONNEN!\n" );
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("          DER COMPUTER HAT GEWONNEN!\n");
+                    Console.WriteLine( "          DER COMPUTER HAT GEWONNEN!\n" );
                 }
-                Console.WriteLine("In " + Runde + " Runden.");
-                Console.WriteLine("Ihre Punkte = " + SpielerPunkte);
-                Console.WriteLine("Computers Punkte = " + ComputerPunkte);
-                Console.WriteLine("Maximal Punkte = " + MaximalPunkte);
-                Console.ReadKey(true);
+                Console.WriteLine( "In " + Runde + " Runden." );
+                Console.WriteLine( "Ihre Punkte = " + SpielerPunkte );
+                Console.WriteLine( "Computers Punkte = " + ComputerPunkte );
+                Console.WriteLine( "Maximal Punkte = " + MaximalPunkte );
+                Console.ReadKey( true );
             }
         }
-        static string SteinPapier(int SteinChaunsen, int PapierChaunsen,  int ZufallsWahl, Random Zufall)
+        static string SteinPapier( int SteinChaunsen, int PapierChaunsen, int ZufallsWahl, Random Zufall )
         {
-            if (SteinChaunsen > PapierChaunsen)
+            if( SteinChaunsen > PapierChaunsen )
             {
                 return "PAPIER";
             }
-            else if (SteinChaunsen == PapierChaunsen)
+            else if( SteinChaunsen == PapierChaunsen )
             {
-                ZufallsWahl = Zufall.Next(1, 100);
-                if (ZufallsWahl <= 50)
+                ZufallsWahl = Zufall.Next( 1, 100 );
+                if( ZufallsWahl <= 50 )
                 {
                     return "PAPIER";
                 }
@@ -354,16 +357,16 @@ namespace SchereSteinPapier
                 return "SCHERE";
             }
         }
-        static string ScherePapier(int SchereChaunsen, int PapierChaunsen, int ZufallsWahl, Random Zufall)
+        static string ScherePapier( int SchereChaunsen, int PapierChaunsen, int ZufallsWahl, Random Zufall )
         {
-            if (SchereChaunsen > PapierChaunsen)
+            if( SchereChaunsen > PapierChaunsen )
             {
                 return "STEIN";
             }
-            else if (SchereChaunsen == PapierChaunsen)
+            else if( SchereChaunsen == PapierChaunsen )
             {
-                ZufallsWahl = Zufall.Next(1, 100);
-                if (ZufallsWahl <= 50)
+                ZufallsWahl = Zufall.Next( 1, 100 );
+                if( ZufallsWahl <= 50 )
                 {
                     return "STEIN";
                 }
